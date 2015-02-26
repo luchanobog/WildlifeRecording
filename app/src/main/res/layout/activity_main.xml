@@ -53,6 +53,22 @@
                             android:layout_marginTop="10dp"
                             android:elevation="1dp"
                             android:src="@android:drawable/ic_menu_camera" />
+                        <!--
+                       <Spinner
+                           android:layout_width="match_parent"
+                           android:layout_height="37dp"
+                           android:id="@+id/spinner"
+                           android:layout_gravity="right"
+                           android:spinnerMode="dropdown"
+                           android:entries="@array/species_array" />
+
+
+                       <EditText
+                           android:hint="Google search"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:id="@+id/googleSearch" />
+                           -->
 
                         <EditText
                             android:id="@+id/nameTxt"

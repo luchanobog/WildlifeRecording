@@ -1,5 +1,6 @@
 package com.example.luchano.wildliferecording;
 
+import android.app.SearchManager;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,7 +41,7 @@ public class MainActivity extends ActionBarActivity {
     private static final int MAP = 4;
     private static final int CAMERA_RESULT = 5;
     //Declare text fields which will be populated in the SQL db
-    EditText nameTxt, numberTxt, locationTxt, commentsTxt;
+    EditText nameTxt, numberTxt, locationTxt, commentsTxt, googleSearch;
     ImageView imgViewSpeciesImage;
     List<Log> Log = new ArrayList<Log>();
     ListView logListView;
@@ -49,6 +51,7 @@ public class MainActivity extends ActionBarActivity {
     int longClickedItemIndex;
     ArrayAdapter<Log> logAdapter;
     //Assign a custom toolbar
+//    final Spinner spin = (Spinner) findViewById((R.id.spinner));
     Toolbar toolbar;
 
 
@@ -70,6 +73,8 @@ public class MainActivity extends ActionBarActivity {
         commentsTxt = (EditText) findViewById(R.id.commentsTxt);
         logListView = (ListView) findViewById(R.id.listView);
         imgViewSpeciesImage = (ImageView) findViewById(R.id.imgViewSpeciesImage);
+//        final String spinVal = String.valueOf(spin.getSelectedItem().toString());
+
         //Instantiate the dbHandler so methods from that class can be used
         dbHandler = new DatabaseHandler(getApplicationContext());
         //Automatically populate the current date and save it to the database
@@ -158,6 +163,7 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
+
         //Allow the user to pick an image from the gallery
         //the type is set to *, which indicates that any image type can be selected
         //TODO allow the user to take a picture and store it as an image
@@ -171,6 +177,7 @@ public class MainActivity extends ActionBarActivity {
                 startActivityForResult(Intent.createChooser(galleryIntent, "Choose a picture"), 1);
             }
         });
+
         if (dbHandler.getLogCount() != 0)
             Log.addAll(dbHandler.getAllLogs());
         populateLog();
@@ -195,6 +202,7 @@ public class MainActivity extends ActionBarActivity {
         menu.add(Menu.NONE, DELETE, menu.NONE, "Delete Entry");
         menu.add(Menu.NONE, SHARE, menu.NONE, "Share");
         menu.add(Menu.NONE, MAP, menu.NONE, "Display on map");
+
     }
 
     //This code allows the user to delete an item from the database
