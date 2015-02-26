@@ -33,18 +33,22 @@ import java.util.List;
 
 public class MainActivity extends ActionBarActivity {
 
+    //Declare final values for the Context menu
     private static final int DELETE = 1;
     private static final int SHARE = 2;
     private static final int MAP = 4;
     private static final int CAMERA_RESULT = 5;
+    //Declare text fields which will be populated in the SQL db
     EditText nameTxt, numberTxt, locationTxt, commentsTxt;
     ImageView imgViewSpeciesImage;
     List<Log> Log = new ArrayList<Log>();
     ListView logListView;
     Uri imageURI = Uri.parse("android.resource://com.example.luchano.wildliferecording/drawable/ic_flower.png");
+    //Instansiate the DatabaseHandler class
     DatabaseHandler dbHandler;
     int longClickedItemIndex;
     ArrayAdapter<Log> logAdapter;
+    //Assign a custom toolbar
     Toolbar toolbar;
 
 
@@ -55,6 +59,7 @@ public class MainActivity extends ActionBarActivity {
         toolbar = (Toolbar) findViewById(R.id.appBar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        //Declare the sliding drawer and assign its layout
         NavigationDrawerFragment drawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
         drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
@@ -131,6 +136,7 @@ public class MainActivity extends ActionBarActivity {
         tabSpec.setIndicator("Log");
         tabHost.addTab(tabSpec);
 
+        //Change the text color of the tabs
         for (int i = 0; i < tabHost.getTabWidget().getChildCount(); i++) {
             TextView tv = (TextView) tabHost.getTabWidget().getChildAt(i).findViewById(android.R.id.title);
             tv.setTextColor(Color.parseColor("#ffffff"));
@@ -182,7 +188,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
-    //Delete menu appears when an items is longClicked
+    //Delete menu appears when an items is clicked on for a longer time
     public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, view, menuInfo);
         menu.setHeaderTitle("Options");
