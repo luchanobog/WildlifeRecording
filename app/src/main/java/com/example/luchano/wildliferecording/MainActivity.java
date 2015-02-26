@@ -1,6 +1,7 @@
 package com.example.luchano.wildliferecording;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.widget.DrawerLayout;
@@ -25,7 +26,9 @@ import android.view.ViewGroup;
 import android.net.Uri;
 import android.view.ContextMenu.ContextMenuInfo;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends ActionBarActivity {
@@ -38,7 +41,7 @@ public class MainActivity extends ActionBarActivity {
     ImageView imgViewSpeciesImage;
     List<Log> Log = new ArrayList<Log>();
     ListView logListView;
-    Uri imageURI = Uri.parse("drawable\\ic_flower.png");
+    Uri imageURI = Uri.parse("android.resource://com.example.luchano.wildliferecording/drawable/ic_flower.png");
     DatabaseHandler dbHandler;
     int longClickedItemIndex;
     ArrayAdapter<Log> logAdapter;
@@ -64,6 +67,9 @@ public class MainActivity extends ActionBarActivity {
         imgViewSpeciesImage = (ImageView) findViewById(R.id.imgViewSpeciesImage);
         //Instantiate the dbHandler so methods from that class can be used
         dbHandler = new DatabaseHandler(getApplicationContext());
+        //Automatically populate the current date and save it to the database
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        locationTxt.setText(sdf.format(new Date()));
 
         registerForContextMenu(logListView);
         logListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -95,7 +101,7 @@ public class MainActivity extends ActionBarActivity {
                     Toast.makeText(getApplicationContext(), String.valueOf(nameTxt.getText()) + "has been added to your logs!", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                Toast.makeText(getApplicationContext(), String.valueOf(nameTxt.getText()) + " already exists. Please use a different name.", Toast.LENGTH_SHORT);
+                Toast.makeText(getApplicationContext(), String.valueOf(nameTxt.getText()) + " already exists. Please use a different name.", Toast.LENGTH_SHORT).show();
             }
 
 
@@ -117,7 +123,7 @@ public class MainActivity extends ActionBarActivity {
         TabHost.TabSpec tabSpec = tabHost.newTabSpec("creator");
         //First tab configurations
         tabSpec.setContent(R.id.tabCreator);
-        tabSpec.setIndicator("Add Data");
+        tabSpec.setIndicator("Add Species");
         tabHost.addTab(tabSpec);
         //second tab configurations
         tabSpec = tabHost.newTabSpec("log");
@@ -125,6 +131,10 @@ public class MainActivity extends ActionBarActivity {
         tabSpec.setIndicator("Log");
         tabHost.addTab(tabSpec);
 
+        for (int i = 0; i < tabHost.getTabWidget().getChildCount(); i++) {
+            TextView tv = (TextView) tabHost.getTabWidget().getChildAt(i).findViewById(android.R.id.title);
+            tv.setTextColor(Color.parseColor("#ffffff"));
+        }
 
         //The following methods disable the ADD Button if the name field is empty, there has to be a value
         nameTxt.addTextChangedListener(new TextWatcher() {
@@ -193,6 +203,7 @@ public class MainActivity extends ActionBarActivity {
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("text/plain");
                 intent.putExtra(android.content.Intent.EXTRA_TEXT, "Species retrieved");
+
                 startActivity(intent);
                 break;
             case MAP://Allows the user to choose their location on the map
@@ -236,7 +247,6 @@ public class MainActivity extends ActionBarActivity {
             if (view == null)
                 view = getLayoutInflater().inflate(R.layout.listview_item, parent, false);
             Log currentLog = Log.get(position);
-            //ViewHolder viewHolder;
             TextView name = (TextView) view.findViewById(R.id.speciesName);
             name.setText(currentLog.get_name());
             TextView number = (TextView) view.findViewById(R.id.speciesNumber);

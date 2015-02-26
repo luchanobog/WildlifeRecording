@@ -21,7 +21,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MapsActivity extends FragmentActivity {
@@ -39,6 +41,7 @@ public class MapsActivity extends FragmentActivity {
         initMap();
         LocationManager lm = (LocationManager) getSystemService(LOCATION_SERVICE);
         String provider = lm.getBestProvider(new Criteria(), true);
+
 
         if (provider == null) {
             onProviderDisabled(provider);
@@ -58,6 +61,7 @@ public class MapsActivity extends FragmentActivity {
                             .title(m.get(i).getTitle())
                             .snippet(m.get(i).getSnippet())
                             .position(lat)
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_pixel))
             );
 
         }
@@ -82,12 +86,13 @@ public class MapsActivity extends FragmentActivity {
                 builder.setPositiveButton("Create", new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int which) {
+
                         EditText title = (EditText) v.findViewById(R.id.ettitle);
                         EditText snippet = (EditText) v.findViewById(R.id.etsnippet);
                         googlemap.addMarker(new MarkerOptions()
                                         .title(title.getText().toString())
                                         .snippet(snippet.getText().toString())
-                                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA))
+                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_pixel))
                                         .position(latlng)
                         );
                         String sll = latlng.latitude + " " + latlng.longitude;
@@ -166,67 +171,6 @@ public class MapsActivity extends FragmentActivity {
 
 
 }
-
-
-//        mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
-//            @Override
-//            public void onMapLongClick(final LatLng latLng) {
-//                LayoutInflater li = LayoutInflater.from(context);
-//                final View view = li.inflate(R.layout.alertlayout, null);
-//                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-//                builder.setView(view);
-//                builder.setCancelable(false);
-//                builder.setPositiveButton("Create", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        EditText title = (EditText) view.findViewById(R.id.etTitle);
-//                        EditText snippet = (EditText) view.findViewById(R.id.etSnippet);
-//                        mMap.addMarker(new MarkerOptions()
-//                                .position(latLng)
-//                                .snippet(snippet.getText().toString())
-//                                .title(title.getText().toString()));
-//                    }
-//                });
-//                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.cancel();
-//                    }
-//                });
-//                AlertDialog alert = builder.create();
-//                alert.show();
-//            }
-//        });
-//    }
-//
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        setUpMapIfNeeded();
-//    }
-//
-//    private void setUpMapIfNeeded() {
-//        if (mMap == null) {
-//
-//            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
-//                    .getMap();
-//
-//            if (mMap != null) {
-//                setUpMap();
-//            }
-//        }
-//    }
-//
-//
-//    private void setUpMap() {
-//        mMap.addMarker(new MarkerOptions().position(new LatLng(51.896343, 1.796991)).title("Cold Sea"));
-//        mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-//    }
-//
-//
-//
-//
-//}
 
 
 
