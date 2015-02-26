@@ -31,7 +31,8 @@
                     android:id="@android:id/tabs"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorPrimary"></TabWidget>
+                    android:background="@color/colorPrimary"
+                    android:clickable="false"></TabWidget>
 
                 <FrameLayout
                     android:id="@android:id/tabcontent"
@@ -52,6 +53,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:paddingTop="2dp"
+                            android:textColor="@color/colorPrimaryText"
                             android:text="Add Species"
                             android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -69,7 +71,8 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="10dp"
-                            android:hint="Species Name" />
+                            android:hint="Species Name"
+                            android:capitalize="words" />
 
                         <EditText
                             android:id="@+id/numberTxt"
@@ -86,7 +89,8 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="10dp"
-                            android:hint="Location" />
+                            android:hint="Date"
+                            android:inputType="date" />
 
 
                         <EditText
@@ -95,7 +99,9 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="10dp"
-                            android:hint="Comments" />
+                            android:hint="Comments"
+                            android:capitalize="words" />
+
 
                         <Button
                             android:layout_marginTop="10dp"
@@ -106,7 +112,8 @@
                             android:onClick="onClick"
                             android:textColor="#FFFFFF"
                             android:layout_gravity="center"
-                            android:background="@color/colorPrimary" />
+                            android:background="@color/colorPrimary"
+                             />
 
                         <Button
                             android:id="@+id/btnAdd"
@@ -117,7 +124,8 @@
                             android:width="200dp"
                             android:background="@color/colorPrimary"
                             android:text="Add Species"
-                            android:textColor="#fffeffef" />
+                            android:textColor="#fffeffef"
+                            android:clickable="false" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -143,23 +151,6 @@
 
 
                     </LinearLayout>
-                    <!--
-                                        <LinearLayout
-                                            android:id="@+id/tabMap"
-                                            android:layout_width="fill_parent"
-                                            android:layout_height="fill_parent"
-                                            android:orientation="vertical">
-
-                                            <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-                                                xmlns:tools="http://schemas.android.com/tools"
-                                                xmlns:map="http://schemas.android.com/apk/res-auto"
-                                                android:layout_width="match_parent"
-                                                android:layout_height="match_parent"
-                                                android:id="@+id/map"
-                                                tools:context="com.example.luchano.wildliferecording.MapsActivity2"
-                                                android:name="com.google.android.gms.maps.SupportMapFragment" />
-                                        </LinearLayout>
-                                            -->
 
                 </FrameLayout>
 

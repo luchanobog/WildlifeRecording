@@ -61,9 +61,6 @@ public class MapsActivity extends FragmentActivity {
             );
 
         }
-        //data.addMarker(new MyMarkerObj("twitter", "twitter HQ", "37.7769904 -122.4169725"));
-
-        //data.close();
 
 
         googlemap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
@@ -90,7 +87,7 @@ public class MapsActivity extends FragmentActivity {
                         googlemap.addMarker(new MarkerOptions()
                                         .title(title.getText().toString())
                                         .snippet(snippet.getText().toString())
-                                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+                                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA))
                                         .position(latlng)
                         );
                         String sll = latlng.latitude + " " + latlng.longitude;
@@ -148,7 +145,7 @@ public class MapsActivity extends FragmentActivity {
         googlemap = mf.getMap();
 
         googlemap.setMyLocationEnabled(true);
-        googlemap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        googlemap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
     }
 
     @Override

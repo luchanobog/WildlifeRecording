@@ -7,12 +7,13 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Enter Title: " />
+        android:text="Enter Date: " />
 
     <EditText
         android:id="@+id/ettitle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:capitalize="characters" />
 
     <TextView
         android:text="Enter Snippet: "
@@ -22,5 +23,6 @@
     <EditText
         android:id="@+id/etsnippet"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:capitalize="characters" />
 </LinearLayout>

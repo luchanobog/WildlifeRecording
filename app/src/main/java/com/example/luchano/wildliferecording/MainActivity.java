@@ -2,6 +2,7 @@ package com.example.luchano.wildliferecording;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -31,17 +32,18 @@ public class MainActivity extends ActionBarActivity {
 
     private static final int DELETE = 1;
     private static final int SHARE = 2;
-    private static final int EDIT = 3;
     private static final int MAP = 4;
+    private static final int CAMERA_RESULT = 5;
     EditText nameTxt, numberTxt, locationTxt, commentsTxt;
     ImageView imgViewSpeciesImage;
     List<Log> Log = new ArrayList<Log>();
     ListView logListView;
-    Uri imageURI = Uri.parse("android.resource://com.example.luchano.wildliferecording/Drawable/galleryicon.png");
+    Uri imageURI = Uri.parse("drawable\\ic_flower.png");
     DatabaseHandler dbHandler;
     int longClickedItemIndex;
     ArrayAdapter<Log> logAdapter;
     Toolbar toolbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +64,6 @@ public class MainActivity extends ActionBarActivity {
         imgViewSpeciesImage = (ImageView) findViewById(R.id.imgViewSpeciesImage);
         //Instantiate the dbHandler so methods from that class can be used
         dbHandler = new DatabaseHandler(getApplicationContext());
-
 
         registerForContextMenu(logListView);
         logListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -123,11 +124,6 @@ public class MainActivity extends ActionBarActivity {
         tabSpec.setContent(R.id.tabLogCreator);
         tabSpec.setIndicator("Log");
         tabHost.addTab(tabSpec);
-        //third tab for the map
-//        tabSpec = tabHost.newTabSpec("Map");
-//        tabSpec.setContent(R.id.tabMap);
-//        tabSpec.setIndicator("Map");
-//        tabHost.addTab(tabSpec);
 
 
         //The following methods disable the ADD Button if the name field is empty, there has to be a value
@@ -153,12 +149,10 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 //create a switch statement
-                Intent intent = new Intent();
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-//                intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
-                intent.setType("image/*");
-                startActivityForResult(Intent.createChooser(intent, "Choose a picture"), 1);
-//                startActivityForResult(intent,CAMERA_RESULT);
+                Intent galleryIntent = new Intent();
+                galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+                galleryIntent.setType("image/*");
+                startActivityForResult(Intent.createChooser(galleryIntent, "Choose a picture"), 1);
             }
         });
         if (dbHandler.getLogCount() != 0)
@@ -201,7 +195,7 @@ public class MainActivity extends ActionBarActivity {
                 intent.putExtra(android.content.Intent.EXTRA_TEXT, "Species retrieved");
                 startActivity(intent);
                 break;
-            case MAP:
+            case MAP://Allows the user to choose their location on the map
                 Intent intent2 = new Intent(MainActivity.this, MapsActivity.class);
                 startActivity(intent2);
                 break;
@@ -253,7 +247,6 @@ public class MainActivity extends ActionBarActivity {
             comments.setText(currentLog.get_comments());
             ImageView ivSpeciesImage = (ImageView) view.findViewById(R.id.ivSpeciesImage);
             ivSpeciesImage.setImageURI(currentLog.get_imageURI());
-
             return view;
         }
     }
