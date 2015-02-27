@@ -5,25 +5,9 @@
     <string name="action_share">Share</string>
     <string name="title_activity_maps">Map</string>
     <string name="snippet"> </string>
-
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
     <string name="title_activity_maps_activity2">Map</string>
-    <string-array name="species_array">
-        <item>Higher Plants</item>
-        <item> Lower Plants</item>
-        <item>Lichen</item>
-        <item>Fungi</item>
-        <item>Butterflies and Moths</item>
-        <item> Dragonflies</item>
-        <item>Fish</item>
-        <item>Amphibians and Reptiles</item>
-        <item>Birds</item>
-        <item>Terrestrial Mammals</item>
-        <item>Marine Mammals</item>
-        <item>Other Invertebrates</item>
-    </string-array>
 
 </resources>

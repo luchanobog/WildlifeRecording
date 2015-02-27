@@ -1,4 +1,4 @@
-package com.example.luchano.wildliferecording;
+package com.example.luchano.wildliferecording.ObjectClasses;
 
 /**
  * Created by Luchano on 25/02/2015.

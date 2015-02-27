@@ -1,4 +1,4 @@
-package com.example.luchano.wildliferecording;
+package com.example.luchano.wildliferecording.Databases;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
+
+import com.example.luchano.wildliferecording.ObjectClasses.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,7 +103,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         //Optimizing the code
         int rowsAffected = db.update(TABLE_SPECIES, cv, KEY_ID + "=?", new String[]{String.valueOf(log.getId())});
         db.close();
-//        return db.update(TABLE_SPECIES,cv,KEY_ID + "=?", new String[]{ String.valueOf(log.getId())});
         return rowsAffected;
     }
 

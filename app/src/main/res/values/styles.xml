@@ -9,7 +9,7 @@
     </style>
 
     <style name="AppTheme.Tab">
-        <item name="android:background">@drawable/tab_bar_background</item>
+        <item name="android:background">@drawable/tab_background</item>
     </style>
 
 </resources>

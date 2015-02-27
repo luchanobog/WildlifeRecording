@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    tools:context="com.example.luchano.wildliferecording.NavigationDrawerFragment">
+    tools:context="com.example.luchano.wildliferecording.UI.NavigationDrawerFragment">
 
     <LinearLayout
         android:id="@+id/containerDrawerImage"
@@ -15,7 +15,7 @@
             android:layout_width="280dp"
             android:layout_height="140dp"
             android:layout_marginBottom="16dp"
-            android:src="@drawable/ic_abstract" />
+            android:src="@drawable/drawer_header" />
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView

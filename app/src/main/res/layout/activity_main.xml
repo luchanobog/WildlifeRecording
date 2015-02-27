@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -13,8 +14,9 @@
         android:orientation="vertical"
         tools:context=".MainActivity">
 
+
         <include
-            layout="@layout/app_bar"
+            layout="@layout/app_bar_layout"
             android:id="@+id/appBar"></include>
 
         <TabHost
@@ -27,11 +29,12 @@
                 android:layout_height="fill_parent"
                 android:orientation="vertical">
 
+
                 <TabWidget
                     android:id="@android:id/tabs"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/tab_bar_background"></TabWidget>
+                    android:background="@drawable/tab_background"></TabWidget>
 
                 <FrameLayout
                     android:id="@android:id/tabcontent"
@@ -47,28 +50,11 @@
 
                         <ImageView
                             android:id="@+id/imgViewSpeciesImage"
-                            android:layout_width="70dp"
-                            android:layout_height="70dp"
+                            android:layout_width="75dp"
+                            android:layout_height="75dp"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="10dp"
-                            android:elevation="1dp"
-                            android:src="@android:drawable/ic_menu_camera" />
-                        <!--
-                       <Spinner
-                           android:layout_width="match_parent"
-                           android:layout_height="37dp"
-                           android:id="@+id/spinner"
-                           android:layout_gravity="right"
-                           android:spinnerMode="dropdown"
-                           android:entries="@array/species_array" />
-
-
-                       <EditText
-                           android:hint="Google search"
-                           android:layout_width="match_parent"
-                           android:layout_height="wrap_content"
-                           android:id="@+id/googleSearch" />
-                           -->
+                            android:src="@drawable/ic_gallery" />
 
                         <EditText
                             android:id="@+id/nameTxt"
@@ -77,7 +63,8 @@
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="10dp"
                             android:hint="Species Name"
-                            android:capitalize="words" />
+                            android:capitalize="words"
+                            android:maxLines="1" />
 
                         <EditText
                             android:id="@+id/numberTxt"
@@ -86,7 +73,8 @@
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="10dp"
                             android:hint="Abundance"
-                            android:numeric="integer" />
+                            android:numeric="integer"
+                            android:maxLines="1" />
 
                         <EditText
                             android:id="@+id/locationTxt"
@@ -95,7 +83,8 @@
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="10dp"
                             android:hint="Date"
-                            android:inputType="date" />
+                            android:inputType="date"
+                            android:maxLines="1" />
 
 
                         <EditText
@@ -105,7 +94,8 @@
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="10dp"
                             android:hint="Comments"
-                            android:capitalize="words" />
+                            android:capitalize="words"
+                            android:maxLines="1" />
 
 
                         <Button
@@ -117,7 +107,7 @@
                             android:onClick="onClick"
                             android:textColor="#FFFFFF"
                             android:layout_gravity="center"
-                            android:background="@drawable/tab_bar_background" />
+                            android:background="@drawable/tab_background" />
 
                         <Button
                             android:id="@+id/btnAdd"
@@ -126,7 +116,7 @@
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="25dp"
                             android:width="200dp"
-                            android:background="@drawable/tab_bar_background"
+                            android:background="@drawable/tab_background"
                             android:text="Add Species"
                             android:textColor="#fffeffef"
                             android:clickable="false" />
@@ -151,12 +141,13 @@
                 </FrameLayout>
 
             </LinearLayout>
+
         </TabHost>
     </LinearLayout>
 
     <fragment
         android:id="@+id/fragment_navigation_drawer"
-        android:name="com.example.luchano.wildliferecording.NavigationDrawerFragment"
+        android:name="com.example.luchano.wildliferecording.UI.NavigationDrawerFragment"
         android:layout_width="280dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"

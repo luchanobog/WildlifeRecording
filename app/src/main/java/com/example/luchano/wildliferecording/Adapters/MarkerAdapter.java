@@ -1,4 +1,4 @@
-package com.example.luchano.wildliferecording;
+package com.example.luchano.wildliferecording.Adapters;
 
 /**
  * Created by Luchano on 25/02/2015.
@@ -9,21 +9,21 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
+
+import com.example.luchano.wildliferecording.Databases.MarkerHandler;
+import com.example.luchano.wildliferecording.ObjectClasses.MyMarkerObj;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author javierAle
- */
-public class MarkerDataSource {
+
+public class MarkerAdapter {
     MarkerHandler dbhelper;
     SQLiteDatabase db;
 
     String[] cols = {MarkerHandler.TITLE, MarkerHandler.SNIPPET, MarkerHandler.POSITION};
 
-    public MarkerDataSource(Context c) {
+    public MarkerAdapter(Context c) {
         dbhelper = new MarkerHandler(c);
 
     }

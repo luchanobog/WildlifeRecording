@@ -1,4 +1,4 @@
-package com.example.luchano.wildliferecording;
+package com.example.luchano.wildliferecording.Databases;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

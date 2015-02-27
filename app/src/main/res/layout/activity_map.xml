@@ -9,5 +9,5 @@
     map:uiTiltGestures="true"
     map:uiZoomControls="true"
     map:uiZoomGestures="true"
-    tools:context="com.example.luchano.wildliferecording.MapsActivity"
+    tools:context="com.example.luchano.wildliferecording.GoogleMap.MapsActivity"
     android:name="com.google.android.gms.maps.SupportMapFragment" />

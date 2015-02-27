@@ -1,4 +1,4 @@
-package com.example.luchano.wildliferecording;
+package com.example.luchano.wildliferecording.GoogleMap;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -11,9 +11,11 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 
+import com.example.luchano.wildliferecording.Adapters.MarkerAdapter;
+import com.example.luchano.wildliferecording.ObjectClasses.MyMarkerObj;
+import com.example.luchano.wildliferecording.R;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -21,23 +23,20 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class MapsActivity extends FragmentActivity {
 
     private Context context = this;
     GoogleMap googlemap;
-    MarkerDataSource data;
+    MarkerAdapter data;
 
 //    private GoogleMap mMap; // Might be null if Google Play services APK is not available.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps_activity2);
+        setContentView(R.layout.activity_map);
         initMap();
         LocationManager lm = (LocationManager) getSystemService(LOCATION_SERVICE);
         String provider = lm.getBestProvider(new Criteria(), true);
@@ -46,7 +45,7 @@ public class MapsActivity extends FragmentActivity {
         if (provider == null) {
             onProviderDisabled(provider);
         }
-        data = new MarkerDataSource(context);
+        data = new MarkerAdapter(context);
         try {
             data.open();
 

@@ -51,7 +51,7 @@ MERGED from com.android.support:support-v4:21.0.3:16:5
 		ADDED from AndroidManifest.xml:18:9
 	android:theme
 		ADDED from AndroidManifest.xml:20:9
-activity#com.example.luchano.wildliferecording.MainActivity
+activity#com.example.luchano.wildliferecording.Activities.MainActivity
 ADDED from AndroidManifest.xml:21:9
 	android:label
 		ADDED from AndroidManifest.xml:23:13
@@ -80,7 +80,7 @@ ADDED from AndroidManifest.xml:34:9
 		ADDED from AndroidManifest.xml:35:13
 	android:value
 		ADDED from AndroidManifest.xml:36:13
-activity#com.example.luchano.wildliferecording.MapsActivity
+activity#com.example.luchano.wildliferecording.GoogleMap.MapsActivity
 ADDED from AndroidManifest.xml:38:9
 	android:label
 		ADDED from AndroidManifest.xml:40:13

@@ -1,4 +1,4 @@
-package com.example.luchano.wildliferecording;
+package com.example.luchano.wildliferecording.UI;
 
 
 import android.content.Context;
@@ -19,9 +19,9 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.luchano.wildliferecording.DrawerAdapter;
+import com.example.luchano.wildliferecording.Adapters.SlidingDrawerAdapter;
 import com.example.luchano.wildliferecording.R;
-import com.example.luchano.wildliferecording.Information;
+import com.example.luchano.wildliferecording.ObjectClasses.Information;
 
 
 public class NavigationDrawerFragment extends Fragment {
@@ -31,7 +31,7 @@ public class NavigationDrawerFragment extends Fragment {
     private RecyclerView recyclerView;
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
-    private DrawerAdapter adapter;
+    private SlidingDrawerAdapter adapter;
     private boolean mUserLearnedDrawer;
     private boolean mFromSavedInstanceState;
     private View containerView;
@@ -44,11 +44,11 @@ public class NavigationDrawerFragment extends Fragment {
     public static List<Information> getData() {
         //load only static data inside a drawer
         List<Information> data = new ArrayList<>();
-        int[] icons = {R.drawable.ic_action_accounts,
-                R.drawable.ic_action_important,
-                R.drawable.ic_action_cloud,
-                R.drawable.ic_action_help,
-                R.drawable.ic_action_about};
+        int[] icons = {R.drawable.ic_account,
+                R.drawable.ic_important,
+                R.drawable.ic_cloud,
+                R.drawable.ic_help,
+                R.drawable.ic_about};
         String[] titles = {" Account ", " Important ", " Cloud ", " Help & Feedback ", " About"};
         for (int i = 0; i < 5; i++) {
             Information current = new Information();
@@ -87,7 +87,7 @@ public class NavigationDrawerFragment extends Fragment {
         // Inflate the layout for this fragment
         View layout = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
         recyclerView = (RecyclerView) layout.findViewById(R.id.drawerList);
-        adapter = new DrawerAdapter(getActivity(), getData());
+        adapter = new SlidingDrawerAdapter(getActivity(), getData());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), recyclerView, new ClickListener() {

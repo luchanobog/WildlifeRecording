@@ -1,10 +1,11 @@
-package com.example.luchano.wildliferecording;
+package com.example.luchano.wildliferecording.Activities;
 
-import android.app.SearchManager;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -20,13 +21,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.view.ViewGroup;
 import android.net.Uri;
 import android.view.ContextMenu.ContextMenuInfo;
+
+import com.example.luchano.wildliferecording.Databases.DatabaseHandler;
+import com.example.luchano.wildliferecording.GoogleMap.MapsActivity;
+import com.example.luchano.wildliferecording.ObjectClasses.Log;
+import com.example.luchano.wildliferecording.R;
+import com.example.luchano.wildliferecording.UI.NavigationDrawerFragment;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -41,12 +47,12 @@ public class MainActivity extends ActionBarActivity {
     private static final int MAP = 4;
     private static final int CAMERA_RESULT = 5;
     //Declare text fields which will be populated in the SQL db
-    EditText nameTxt, numberTxt, locationTxt, commentsTxt, googleSearch;
+    EditText nameTxt, numberTxt, locationTxt, commentsTxt;
     ImageView imgViewSpeciesImage;
-    List<Log> Log = new ArrayList<Log>();
+    List<com.example.luchano.wildliferecording.ObjectClasses.Log> Log = new ArrayList<Log>();
     ListView logListView;
-    Uri imageURI = Uri.parse("android.resource://com.example.luchano.wildliferecording/drawable/ic_flower.png");
-    //Instansiate the DatabaseHandler class
+    Uri imageURI = Uri.parse("android.resource://com.example.luchano.wildliferecording/drawable/ic_flower");
+    //Instantiate the DatabaseHandler class
     DatabaseHandler dbHandler;
     int longClickedItemIndex;
     ArrayAdapter<Log> logAdapter;
@@ -166,7 +172,6 @@ public class MainActivity extends ActionBarActivity {
 
         //Allow the user to pick an image from the gallery
         //the type is set to *, which indicates that any image type can be selected
-        //TODO allow the user to take a picture and store it as an image
         imgViewSpeciesImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -185,15 +190,60 @@ public class MainActivity extends ActionBarActivity {
     }
 
     //Gets the image that has been selected by the user and adds it to the database
+
     public void onActivityResult(int reqCode, int resCode, Intent data) {
         if (resCode == RESULT_OK) {
             if (reqCode == 1) {
                 imageURI = data.getData();
                 imgViewSpeciesImage.setImageURI(data.getData());
+//               imgViewSpeciesImage.setImageBitmap(decodeSampledBitmapFromResource(getResources(),
+//                        R.id.imgViewSpeciesImage,
+//                        imgViewSpeciesImage.getMinimumWidth(),
+//                        imgViewSpeciesImage.getMinimumHeight()));
             }
         }
     }
 
+    //test
+    public static int calculateInSampleSize(
+            BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        // Raw height and width of image
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+
+            final int halfHeight = height / 2;
+            final int halfWidth = width / 2;
+
+            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+            // height and width larger than the requested height and width.
+            while ((halfHeight / inSampleSize) > reqHeight
+                    && (halfWidth / inSampleSize) > reqWidth) {
+                inSampleSize *= 2;
+            }
+        }
+
+        return inSampleSize;
+    }
+
+    //test 2
+    public static Bitmap decodeSampledBitmapFromResource(Resources res, int resId,
+                                                         int reqWidth, int reqHeight) {
+
+        // First decode with inJustDecodeBounds=true to check dimensions
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeResource(res, resId, options);
+
+        // Calculate inSampleSize
+        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+
+        // Decode bitmap with inSampleSize set
+        options.inJustDecodeBounds = false;
+        return BitmapFactory.decodeResource(res, resId, options);
+    }
 
     //Delete menu appears when an items is clicked on for a longer time
     public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
@@ -251,7 +301,7 @@ public class MainActivity extends ActionBarActivity {
     private class LogListAdapter extends ArrayAdapter<Log> {
         //Constructor for this class
         public LogListAdapter() {
-            super(MainActivity.this, R.layout.listview_item, Log);
+            super(MainActivity.this, R.layout.listview_species, Log);
         }
 
         @Override
@@ -259,7 +309,7 @@ public class MainActivity extends ActionBarActivity {
 
 
             if (view == null)
-                view = getLayoutInflater().inflate(R.layout.listview_item, parent, false);
+                view = getLayoutInflater().inflate(R.layout.listview_species, parent, false);
             Log currentLog = Log.get(position);
             TextView name = (TextView) view.findViewById(R.id.speciesName);
             name.setText(currentLog.get_name());

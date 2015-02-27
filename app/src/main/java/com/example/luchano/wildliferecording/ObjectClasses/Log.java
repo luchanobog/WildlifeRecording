@@ -1,4 +1,4 @@
-package com.example.luchano.wildliferecording;
+package com.example.luchano.wildliferecording.ObjectClasses;
 
 import android.net.Uri;
 
