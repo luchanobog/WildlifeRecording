@@ -46,6 +46,7 @@ public class MainActivity extends ActionBarActivity {
     private static final int SHARE = 2;
     private static final int MAP = 4;
     private static final int CAMERA_RESULT = 5;
+    
     //Declare text fields which will be populated in the SQL db
     EditText nameTxt, numberTxt, locationTxt, commentsTxt;
     ImageView imgViewSpeciesImage;
@@ -56,8 +57,6 @@ public class MainActivity extends ActionBarActivity {
     DatabaseHandler dbHandler;
     int longClickedItemIndex;
     ArrayAdapter<Log> logAdapter;
-    //Assign a custom toolbar
-//    final Spinner spin = (Spinner) findViewById((R.id.spinner));
     Toolbar toolbar;
 
 
@@ -196,63 +195,16 @@ public class MainActivity extends ActionBarActivity {
             if (reqCode == 1) {
                 imageURI = data.getData();
                 imgViewSpeciesImage.setImageURI(data.getData());
-//               imgViewSpeciesImage.setImageBitmap(decodeSampledBitmapFromResource(getResources(),
-//                        R.id.imgViewSpeciesImage,
-//                        imgViewSpeciesImage.getMinimumWidth(),
-//                        imgViewSpeciesImage.getMinimumHeight()));
             }
         }
     }
 
-    //test
-    public static int calculateInSampleSize(
-            BitmapFactory.Options options, int reqWidth, int reqHeight) {
-        // Raw height and width of image
-        final int height = options.outHeight;
-        final int width = options.outWidth;
-        int inSampleSize = 1;
-
-        if (height > reqHeight || width > reqWidth) {
-
-            final int halfHeight = height / 2;
-            final int halfWidth = width / 2;
-
-            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
-            // height and width larger than the requested height and width.
-            while ((halfHeight / inSampleSize) > reqHeight
-                    && (halfWidth / inSampleSize) > reqWidth) {
-                inSampleSize *= 2;
-            }
-        }
-
-        return inSampleSize;
-    }
-
-    //test 2
-    public static Bitmap decodeSampledBitmapFromResource(Resources res, int resId,
-                                                         int reqWidth, int reqHeight) {
-
-        // First decode with inJustDecodeBounds=true to check dimensions
-        final BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeResource(res, resId, options);
-
-        // Calculate inSampleSize
-        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
-
-        // Decode bitmap with inSampleSize set
-        options.inJustDecodeBounds = false;
-        return BitmapFactory.decodeResource(res, resId, options);
-    }
-
-    //Delete menu appears when an items is clicked on for a longer time
     public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, view, menuInfo);
         menu.setHeaderTitle("Options");
         menu.add(Menu.NONE, DELETE, menu.NONE, "Delete Entry");
         menu.add(Menu.NONE, SHARE, menu.NONE, "Share");
         menu.add(Menu.NONE, MAP, menu.NONE, "Display on map");
-
     }
 
     //This code allows the user to delete an item from the database

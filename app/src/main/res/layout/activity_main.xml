@@ -63,8 +63,7 @@
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="10dp"
                             android:hint="Species Name"
-                            android:capitalize="words"
-                            android:maxLines="1" />
+                            android:capitalize="words" />
 
                         <EditText
                             android:id="@+id/numberTxt"
@@ -73,8 +72,7 @@
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="10dp"
                             android:hint="Abundance"
-                            android:numeric="integer"
-                            android:maxLines="1" />
+                            android:numeric="integer" />
 
                         <EditText
                             android:id="@+id/locationTxt"
@@ -83,8 +81,7 @@
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="10dp"
                             android:hint="Date"
-                            android:inputType="date"
-                            android:maxLines="1" />
+                            android:inputType="date" />
 
 
                         <EditText
@@ -94,8 +91,7 @@
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="10dp"
                             android:hint="Comments"
-                            android:capitalize="words"
-                            android:maxLines="1" />
+                            android:capitalize="words" />
 
 
                         <Button
