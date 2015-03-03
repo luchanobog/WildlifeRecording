@@ -14,9 +14,6 @@ import com.example.luchano.wildliferecording.R;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Created by Windows on 22-12-2014.
- */
 //Deals with Navigation Drawer
 public class SlidingDrawerAdapter extends RecyclerView.Adapter<SlidingDrawerAdapter.MyViewHolder> {
     List<Information> data = Collections.emptyList();

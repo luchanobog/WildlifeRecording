@@ -8,6 +8,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -34,6 +36,8 @@ import com.example.luchano.wildliferecording.ObjectClasses.Log;
 import com.example.luchano.wildliferecording.R;
 import com.example.luchano.wildliferecording.UI.NavigationDrawerFragment;
 
+import org.w3c.dom.Text;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -46,7 +50,6 @@ public class MainActivity extends ActionBarActivity {
     private static final int SHARE = 2;
     private static final int MAP = 4;
     private static final int CAMERA_RESULT = 5;
-    
     //Declare text fields which will be populated in the SQL db
     EditText nameTxt, numberTxt, locationTxt, commentsTxt;
     ImageView imgViewSpeciesImage;
@@ -78,10 +81,10 @@ public class MainActivity extends ActionBarActivity {
         commentsTxt = (EditText) findViewById(R.id.commentsTxt);
         logListView = (ListView) findViewById(R.id.listView);
         imgViewSpeciesImage = (ImageView) findViewById(R.id.imgViewSpeciesImage);
-//        final String spinVal = String.valueOf(spin.getSelectedItem().toString());
 
         //Instantiate the dbHandler so methods from that class can be used
         dbHandler = new DatabaseHandler(getApplicationContext());
+
         //Automatically populate the current date and save it to the database
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         locationTxt.setText(sdf.format(new Date()));
@@ -113,7 +116,7 @@ public class MainActivity extends ActionBarActivity {
                     dbHandler.createLog(log);
                     Log.add(log);
                     logAdapter.notifyDataSetChanged();
-                    Toast.makeText(getApplicationContext(), String.valueOf(nameTxt.getText()) + "has been added to your logs!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), String.valueOf(nameTxt.getText()) + " has been added to your logs!", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 Toast.makeText(getApplicationContext(), String.valueOf(nameTxt.getText()) + " already exists. Please use a different name.", Toast.LENGTH_SHORT).show();
@@ -216,10 +219,19 @@ public class MainActivity extends ActionBarActivity {
                 logAdapter.notifyDataSetChanged();//notify the adapter
                 break;
             case SHARE:
+                //TODO add the image to the intent
+                TextView text, text2, text3, text4;
+                text4 = (TextView) findViewById(R.id.speciesComments);
+                text3 = (TextView) findViewById(R.id.speciesLocation);
+                text2 = (TextView) findViewById(R.id.speciesNumber);
+                text = (TextView) findViewById(R.id.speciesName);
                 Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.setType("text/plain");
-                intent.putExtra(android.content.Intent.EXTRA_TEXT, "Species retrieved");
-
+                intent.setType("*/*");
+                intent.putExtra(Intent.EXTRA_TEXT,
+                        String.valueOf(text.getText()) + "\n"
+                                + String.valueOf(text2.getText()) + "\n"
+                                + String.valueOf(text3.getText()) + "\n"
+                                + String.valueOf(text4.getText()) + "\n");
                 startActivity(intent);
                 break;
             case MAP://Allows the user to choose their location on the map
@@ -244,6 +256,7 @@ public class MainActivity extends ActionBarActivity {
 
     //Assign an adapter for the list
     private void populateLog() {
+
         logAdapter = new LogListAdapter();
         logListView.setAdapter(logAdapter);
     }
@@ -258,8 +271,6 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         public View getView(int position, View view, ViewGroup parent) {
-
-
             if (view == null)
                 view = getLayoutInflater().inflate(R.layout.listview_species, parent, false);
             Log currentLog = Log.get(position);
