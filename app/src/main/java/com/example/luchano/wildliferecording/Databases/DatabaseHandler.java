@@ -80,6 +80,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+
     //Raw sql commands,get a certain specie
     public int getLogCount() {
         SQLiteDatabase db = getReadableDatabase();

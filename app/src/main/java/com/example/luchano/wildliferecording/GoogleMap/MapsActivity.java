@@ -12,6 +12,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.luchano.wildliferecording.Adapters.MarkerAdapter;
 import com.example.luchano.wildliferecording.ObjectClasses.MyMarkerObj;
@@ -23,6 +26,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class MapsActivity extends FragmentActivity {
@@ -31,10 +36,9 @@ public class MapsActivity extends FragmentActivity {
     GoogleMap googlemap;
     MarkerAdapter data;
 
-//    private GoogleMap mMap; // Might be null if Google Play services APK is not available.
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
         initMap();
@@ -61,18 +65,12 @@ public class MapsActivity extends FragmentActivity {
                             .snippet(m.get(i).getSnippet())
                             .position(lat)
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_pixel))
-            );
 
+
+            );
         }
 
 
-        googlemap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-
-            public void onInfoWindowClick(Marker marker) {
-                marker.remove();
-                data.deleteMarker(new MyMarkerObj(marker.getTitle(), marker.getSnippet(), marker.getPosition().latitude + " " + marker.getPosition().longitude));
-            }
-        });
         googlemap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
 
             public void onMapLongClick(final LatLng latlng) {
@@ -85,8 +83,11 @@ public class MapsActivity extends FragmentActivity {
                 builder.setPositiveButton("Create", new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int which) {
-
+                        //Automatically populate the current date and save it to the database
+//                        EditText speciesName = (EditText) v.findViewById(R.id.nameTxt);
                         EditText title = (EditText) v.findViewById(R.id.ettitle);
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+                        title.setText(sdf.format(new Date()));
                         EditText snippet = (EditText) v.findViewById(R.id.etsnippet);
                         googlemap.addMarker(new MarkerOptions()
                                         .title(title.getText().toString())
@@ -96,6 +97,7 @@ public class MapsActivity extends FragmentActivity {
                         );
                         String sll = latlng.latitude + " " + latlng.longitude;
                         data.addMarker(new MyMarkerObj(title.getText().toString(), snippet.getText().toString(), sll));
+
                     }
                 });
 
@@ -109,9 +111,12 @@ public class MapsActivity extends FragmentActivity {
                 AlertDialog alert = builder.create();
                 alert.show();
 
+
             }
+
         });
     }
+
 
     public void onLocationChanged(Location location) {
     }
@@ -150,6 +155,7 @@ public class MapsActivity extends FragmentActivity {
 
         googlemap.setMyLocationEnabled(true);
         googlemap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+
     }
 
     @Override

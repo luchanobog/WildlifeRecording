@@ -21,6 +21,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TabHost;
@@ -38,6 +39,9 @@ import com.example.luchano.wildliferecording.UI.NavigationDrawerFragment;
 
 import org.w3c.dom.Text;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -49,7 +53,6 @@ public class MainActivity extends ActionBarActivity {
     private static final int DELETE = 1;
     private static final int SHARE = 2;
     private static final int MAP = 4;
-    private static final int CAMERA_RESULT = 5;
     //Declare text fields which will be populated in the SQL db
     EditText nameTxt, numberTxt, locationTxt, commentsTxt;
     ImageView imgViewSpeciesImage;
@@ -119,12 +122,10 @@ public class MainActivity extends ActionBarActivity {
                     Toast.makeText(getApplicationContext(), String.valueOf(nameTxt.getText()) + " has been added to your logs!", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                Toast.makeText(getApplicationContext(), String.valueOf(nameTxt.getText()) + " already exists. Please use a different name.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), String.valueOf(nameTxt.getText()) + " already exists. Add another comment", Toast.LENGTH_SHORT).show();
             }
 
-
         });
-
         //Explicitly launch Google Map
         final Button getLocation = (Button) findViewById(R.id.getLocation);
         getLocation.setOnClickListener(new View.OnClickListener() {
@@ -134,7 +135,6 @@ public class MainActivity extends ActionBarActivity {
                 startActivity(intent2);
             }
         });
-
         //Configure the tabs
         TabHost tabHost = (TabHost) findViewById(R.id.tabHost);
         tabHost.setup();
@@ -155,23 +155,6 @@ public class MainActivity extends ActionBarActivity {
             tv.setTextColor(Color.parseColor("#ffffff"));
         }
 
-        //The following methods disable the ADD Button if the name field is empty, there has to be a value
-        nameTxt.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                addBtn.setEnabled(String.valueOf(nameTxt.getText()).trim().length() > 0);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
-
-
         //Allow the user to pick an image from the gallery
         //the type is set to *, which indicates that any image type can be selected
         imgViewSpeciesImage.setOnClickListener(new View.OnClickListener() {
@@ -182,6 +165,7 @@ public class MainActivity extends ActionBarActivity {
                 galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
                 galleryIntent.setType("image/*");
                 startActivityForResult(Intent.createChooser(galleryIntent, "Choose a picture"), 1);
+
             }
         });
 
@@ -192,16 +176,18 @@ public class MainActivity extends ActionBarActivity {
     }
 
     //Gets the image that has been selected by the user and adds it to the database
-
+    //TODO SET A MAXIMUM IMAGE SIZE
     public void onActivityResult(int reqCode, int resCode, Intent data) {
         if (resCode == RESULT_OK) {
             if (reqCode == 1) {
+                Toast.makeText(getApplicationContext(), "Image attached!", Toast.LENGTH_SHORT).show();
                 imageURI = data.getData();
                 imgViewSpeciesImage.setImageURI(data.getData());
             }
         }
     }
 
+    //When an item is long clicked in the Log tab, the following menu will be presented
     public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, view, menuInfo);
         menu.setHeaderTitle("Options");
@@ -216,6 +202,7 @@ public class MainActivity extends ActionBarActivity {
             case DELETE:
                 dbHandler.deleteLog(Log.get(longClickedItemIndex));//know exactly which one is selected
                 Log.remove(longClickedItemIndex);//delete the selected item
+                Toast.makeText(getApplicationContext(), "Species has been deleted!", Toast.LENGTH_SHORT).show();
                 logAdapter.notifyDataSetChanged();//notify the adapter
                 break;
             case SHARE:
@@ -228,10 +215,7 @@ public class MainActivity extends ActionBarActivity {
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("*/*");
                 intent.putExtra(Intent.EXTRA_TEXT,
-                        String.valueOf(text.getText()) + "\n"
-                                + String.valueOf(text2.getText()) + "\n"
-                                + String.valueOf(text3.getText()) + "\n"
-                                + String.valueOf(text4.getText()) + "\n");
+                        String.valueOf(text.getText()) + "\n" + String.valueOf(text2.getText()) + "\n" + String.valueOf(text3.getText()) + "\n" + String.valueOf(text4.getText()));
                 startActivity(intent);
                 break;
             case MAP://Allows the user to choose their location on the map
@@ -245,11 +229,12 @@ public class MainActivity extends ActionBarActivity {
     //Checks if user has stored this value before and does not let them store it again
     //in order to avoid duplication
     private boolean logExists(Log log) {
-        String name = log.get_name();
+        String name = log.get_comments();
         int logCount = Log.size();
         for (int i = 0; i < logCount; i++) {
-            if (name.compareToIgnoreCase(Log.get(i).get_name()) == 0)
+            if (name.compareToIgnoreCase(Log.get(i).get_comments()) == 1) {
                 return true;
+            }
         }
         return false;
     }
@@ -284,9 +269,59 @@ public class MainActivity extends ActionBarActivity {
             comments.setText(currentLog.get_comments());
             ImageView ivSpeciesImage = (ImageView) view.findViewById(R.id.ivSpeciesImage);
             ivSpeciesImage.setImageURI(currentLog.get_imageURI());
+
             return view;
         }
+
+
     }
 
+    public static int calculateInSampleSize(
+            BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        // Raw height and width of image
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 4;
+
+        if (height > reqHeight || width > reqWidth) {
+
+            final int halfHeight = height / 2;
+            final int halfWidth = width / 2;
+
+            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+            // height and width larger than the requested height and width.
+            while ((halfHeight / inSampleSize) > reqHeight
+                    && (halfWidth / inSampleSize) > reqWidth) {
+                inSampleSize *= 2;
+            }
+        }
+
+        return inSampleSize;
+    }
+
+    public static Bitmap decodeSampledBitmapFromResource(Resources res, int resId,
+                                                         int reqWidth, int reqHeight) {
+
+
+        // First decode with inJustDecodeBounds=true to check dimensions
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = 4;
+        options.inJustDecodeBounds = true;
+        options.inPreferredConfig = Bitmap.Config.RGB_565;
+        options.inDither = true;
+        BitmapFactory.decodeResource(res, resId, options);
+
+        // Calculate inSampleSize
+        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+
+        // Decode bitmap with inSampleSize set
+        options.inJustDecodeBounds = false;
+        options.inPreferredConfig = Bitmap.Config.RGB_565;
+        options.inDither = true;
+        return BitmapFactory.decodeResource(res, resId, options);
+    }
 
 }
+
+
+

@@ -49,11 +49,11 @@
 
                         <ImageView
                             android:id="@+id/imgViewSpeciesImage"
-                            android:layout_width="75dp"
-                            android:layout_height="75dp"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="10dp"
-                            android:src="@drawable/ic_gallery" />
+                            android:src="@drawable/ic_add_image" />
 
                         <EditText
                             android:id="@+id/nameTxt"
@@ -94,7 +94,7 @@
 
 
                         <Button
-                            android:layout_marginTop="25dp"
+                            android:layout_marginTop="20dp"
                             android:layout_width="200dp"
                             android:layout_height="wrap_content"
                             android:id="@+id/getLocation"
@@ -109,7 +109,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            android:layout_marginTop="25dp"
+                            android:layout_marginTop="20dp"
                             android:width="200dp"
                             android:background="@drawable/tab_background"
                             android:text="Add Species"
